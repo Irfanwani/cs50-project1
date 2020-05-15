@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Search books
+{% endblock %}
+
+{% block body %}
+<h1>Congrats! You logged in successfully!</h1>
+<form action="{{url_for('search')}}" method="post">
+    <input type="search" name="search" placeholder="Search Here!" required>
+    <button>Search</button>
+    <ol>
+        {% for book in books %}
+        <li><a href="{{url_for('bookdetails', book_id=book.id)}}">{{book.title}} by {{book.author}}</a></li>
+        {% else%}
+        <h3>Search for your books here!</h3>
+        {% endfor %}
+    </ol>
+
+
+</form>
+{% endblock %}
