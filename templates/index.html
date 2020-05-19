@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home page
+{% endblock %}
+
+{% block body %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<h1>Boost your life by reading! Get access to millions of books</h1>
+<form action="{{url_for('search')}}" method="post">
+    <input type="text" name="username" minlength="3" placeholder="Enter username" required>
+    <input type="email" name="email" placeholder="Enter Email" required>
+    <input type="password" name="password" minlength="8" placeholder="Enter Password" required>
+    <button>Join</button>
+</form>
+<h5>Already a member?<a href="{{url_for('login')}}">Login Here</a></h5>
+{% endblock %}
