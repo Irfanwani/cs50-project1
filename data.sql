@@ -7,10 +7,6 @@ author VARCHAR NOT NULL,
 publishyear VARCHAR NOT NULL
 );
 
-"""added one more column to the books table"""
-ALTER TABLE books
-ADD average_score;
-
 
 """created another table for users"""
 CREATE TABLE users (
@@ -29,5 +25,3 @@ username VARCHAR,
 comments VARCHAR,
 rating INTEGER
 );
-
-INSERT INTO reviews (isbn, username, comments, rating) VALUES (0380795272, 'Irfan', 'Nice book', 5);
