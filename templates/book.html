@@ -6,6 +6,14 @@ Book details
 
 {% block body %}
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <h1>Book details</h1>
 <ul>
     <li><strong>ISBN:</strong> {{book.isbn}}</li>
@@ -25,6 +33,19 @@ Book details
     Comments: <input type="text" name="review" placeholder="Comments about this book">
     <button type="submit">Submit</button>
 </form>
+
+<h2>User ratings and comments</h2>
+
+{% for review in reviews %}
+<h4>Review by <strong>{{review.username}}</strong></h4>
+<ul>
+    <li><strong>{{review.rating}}</strong> stars</li>
+    <li><strong>{{review.comments}}</strong></li>
+</ul>
+{% else %}
+<h3>No user reviews for this book! Rate this book for more user-friendly experience.</h3>
+
+{% endfor %}
 
 <a href="{{url_for('logout')}}">Logout</a>
 

@@ -133,7 +133,7 @@ def results():
     return render_template("search.html", books=books)
 
 
-@app.route("/bookdetails/<int:book_id>")
+@app.route("/bookdetails/<int:book_id>", methods=["GET", "POST"])
 def bookdetails(book_id):
     if "username" in session:
         book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
@@ -143,7 +143,30 @@ def bookdetails(book_id):
         data = res.json()
         number_of_ratings = data["books"][0]["work_ratings_count"]
         av_ratings = data['books'][0]["average_rating"]
-        return render_template("book.html", book=book, number_of_ratings=number_of_ratings, av_ratings=av_ratings)
+        reviews = db.execute("SELECT * FROM reviews")
+        thisbookrev = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn["isbn"]}).fetchall()
+
+        if request.method == "POST":
+            username = session["username"]
+            comments = request.form.get("review")
+            rating = request.form.get("rating")
+
+            for review in reviews:
+                if username == review.username and isbn["isbn"] == review.isbn:
+                    flash("You have already made a review on this book.", "info")
+                    return render_template("book.html", book=book, number_of_ratings=number_of_ratings,
+                                           av_ratings=av_ratings, reviews=thisbookrev)
+
+            db.execute(
+                "INSERT INTO reviews (isbn, username, comments, rating) VALUES (:isbn, :username, :comments, :rating)",
+                {"isbn": isbn["isbn"], "username": username, "comments": comments, "rating": rating})
+            db.commit()
+            flash("Review submitted successfully!", "info")
+            return render_template("book.html", book=book, number_of_ratings=number_of_ratings,
+                                   av_ratings=av_ratings, reviews=thisbookrev)
+
+        return render_template("book.html", book=book, number_of_ratings=number_of_ratings, av_ratings=av_ratings,
+                               reviews=thisbookrev)
     else:
         return render_template("loginfirst.html")
 
