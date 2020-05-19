@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Search books
+{% endblock %}
+
+{% block body %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<h1>Search for millions of books!</h1>
+
+<a href="{{url_for('logout')}}">Logout</a>
+
+<form action="{{url_for('results')}}" method="post">
+    <input type="search" name="search" placeholder="Search Here!" required>
+    <button>Search</button>
+    <ol>
+        {% for book in books %}
+        <li><a href="{{url_for('bookdetails', book_id=book.id)}}">{{book.title}} by {{book.author}}</a></li>
+        {% else%}
+        <h3>Search for your books here!</h3>
+        {% endfor %}
+    </ol>
+</form>
+{% endblock %}
