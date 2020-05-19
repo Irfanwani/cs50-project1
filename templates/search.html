@@ -5,8 +5,20 @@ Search books
 {% endblock %}
 
 {% block body %}
-<h1>Congrats! You logged in successfully!</h1>
-<form action="{{url_for('search')}}" method="post">
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<h1>Search for millions of books!</h1>
+
+<a href="{{url_for('logout')}}">Logout</a>
+
+<form action="{{url_for('results')}}" method="post">
     <input type="search" name="search" placeholder="Search Here!" required>
     <button>Search</button>
     <ol>
@@ -16,7 +28,5 @@ Search books
         <h3>Search for your books here!</h3>
         {% endfor %}
     </ol>
-
-
 </form>
 {% endblock %}

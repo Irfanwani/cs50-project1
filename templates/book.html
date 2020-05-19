@@ -5,6 +5,7 @@ Book details
 {% endblock %}
 
 {% block body %}
+
 <h1>Book details</h1>
 <ul>
     <li><strong>ISBN:</strong> {{book.isbn}}</li>
@@ -12,9 +13,19 @@ Book details
     <li><strong>Author:</strong> {{book.author}}</li>
     <li><strong>Publication year:</strong> {{book.publishyear}}</li>
 </ul>
-<h2>Book ratings</h2>
+<h2>Book ratings by Goodreads.</h2>
 <ul>
     <li><strong>Number of ratings:</strong> {{number_of_ratings}}</li>
     <li><strong>Average rating:</strong> {{av_ratings}}</li>
 </ul>
+
+<form action="{{url_for('bookdetails', book_id=book.id)}}" method="post">
+
+    Rate this book: <input type="number" min="1" max="5" name="rating" placeholder="Rate">
+    Comments: <input type="text" name="review" placeholder="Comments about this book">
+    <button type="submit">Submit</button>
+</form>
+
+<a href="{{url_for('logout')}}">Logout</a>
+
 {% endblock %}
