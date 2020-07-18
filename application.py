@@ -139,7 +139,7 @@ def bookdetails(book_id):
         book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
         isbn = db.execute("SELECT isbn FROM books WHERE id = :id", {"id": book_id}).fetchone()
         res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                           params={"key": "VShAUmmDnwjupqkKzEnNcw", "isbns": isbn})
+                           params={"key": "xxxxxxxxxxxxxxxx", "isbns": isbn})
         data = res.json()
         number_of_ratings = data["books"][0]["work_ratings_count"]
         av_ratings = data['books'][0]["average_rating"]
@@ -179,7 +179,7 @@ def book_api(isbn):
 
     isbn = db.execute("SELECT isbn FROM books WHERE id = :id", {"id": book.id}).fetchone()
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                       params={"key": "VShAUmmDnwjupqkKzEnNcw", "isbns": isbn})
+                       params={"key": "xxxxxxxxxxxxxxxx", "isbns": isbn})
     data = res.json()
     number_of_ratings = data["books"][0]["work_ratings_count"]
     av_ratings = data['books'][0]["average_rating"]
